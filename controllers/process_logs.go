@@ -1,18 +1,15 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 
 	"Meme_Api_LogDrain/parsers"
 )
 
 // ProcessLogsHandler - Process the logs data
-func ProcessLogsHandler(w http.ResponseWriter, r *http.Request) {
+func (c *Controllers) ProcessLogsHandler(w http.ResponseWriter, r *http.Request) {
 
-	logs := parsers.GetRouterLogs(r.Body)
+	routerLogs := parsers.GetRouterLogs(r.Body)
 
-	for _, line := range logs {
-		log.Println(line)
-	}
+	c.Mongo.UpdateDayAnalytics(routerLogs)
 }
