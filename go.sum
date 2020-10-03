@@ -1,0 +1,4 @@
+github.com/bmizerany/lpx v0.0.0-20130503172629-af85cf24c156 h1:0ywL+47/N2nSZUMM4VUYMZus+FPVfXbbXb2qhGpzsS8=
+github.com/bmizerany/lpx v0.0.0-20130503172629-af85cf24c156/go.mod h1:sBo9Xky5Lv+sFCp5t1OH7lwY/qRcheGrbjsvb0FdUwM=
+github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515 h1:T+h1c/A9Gawja4Y9mFVWj2vyii2bbUNDw3kt9VxK2EY=
+github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515/go.mod h1:+0opPa2QZZtGFBFZlji/RkVcI2GknAs/DXo4wKdlNEc=
