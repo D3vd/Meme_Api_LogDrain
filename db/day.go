@@ -29,9 +29,9 @@ func (m *Mongo) UpdateDayAnalytics(logs []types.RouterLog) {
 
 	for _, line := range logs {
 		update := bson.M{"$inc": bson.M{
-			"statuses." + line.Status:                       1,
-			"routes." + line.Path:                           1,
-			"ip." + strings.Replace(line.Fwd, ".", "-", -1): 1}}
+			"statuses." + line.Status:                            1,
+			"routes." + strings.Replace(line.Path, ".", "-", -1): 1,
+			"ip." + strings.Replace(line.Fwd, ".", "-", -1):      1}}
 
 		_, err := m.DB.Collection("days").UpdateOne(context.TODO(), filter, update, opts)
 
