@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"log"
+	"strings"
 	"time"
 
 	"Meme_Api_LogDrain/types"
@@ -22,13 +23,15 @@ func (m *Mongo) UpdateDayAnalytics(logs []types.RouterLog) {
 	now := time.Now()
 	loc, _ := time.LoadLocation("Local")
 	currentDate := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, loc)
-	dateString := currentDate.Format("2016-08-21")
 
 	// Create Filter with todays date
-	filter := bson.M{"date": currentDate, "date_string": dateString}
+	filter := bson.M{"date": currentDate}
 
 	for _, line := range logs {
-		update := bson.M{"$inc": bson.M{"statuses." + line.Status: 1, "routes." + line.Path: 1, "ip." + line.Fwd: 1}}
+		update := bson.M{"$inc": bson.M{
+			"statuses." + line.Status:                       1,
+			"routes." + line.Path:                           1,
+			"ip." + strings.Replace(line.Fwd, ".", "-", -1): 1}}
 
 		_, err := m.DB.Collection("days").UpdateOne(context.TODO(), filter, update, opts)
 
