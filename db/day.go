@@ -8,6 +8,7 @@ import (
 
 	"Meme_Api_LogDrain/types"
 
+	"github.com/getsentry/sentry-go"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -37,6 +38,7 @@ func (m *Mongo) UpdateDayAnalytics(logs []types.RouterLog) {
 		_, err := m.DB.Collection("days").UpdateOne(context.TODO(), filter, update, opts)
 
 		if err != nil {
+			sentry.CaptureException(err)
 			log.Println("Error: While updating analytics", err)
 		}
 	}

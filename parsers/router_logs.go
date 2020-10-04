@@ -8,6 +8,7 @@ import (
 	"Meme_Api_LogDrain/types"
 
 	"github.com/bmizerany/lpx"
+	"github.com/getsentry/sentry-go"
 	"github.com/kr/logfmt"
 )
 
@@ -19,6 +20,7 @@ func GetRouterLogs(data io.Reader) (logs []types.RouterLog) {
 		if string(lp.Header().Procid) == "router" {
 			rl := new(types.RouterLog)
 			if err := logfmt.Unmarshal(lp.Bytes(), rl); err != nil {
+				sentry.CaptureException(err)
 				log.Printf("Error: %v", err)
 				continue
 			} else {

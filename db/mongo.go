@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/getsentry/sentry-go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/x/mongo/driver/connstring"
@@ -28,14 +29,15 @@ func (m *Mongo) Init() {
 	cs, err := connstring.Parse(mongoURI)
 
 	if err != nil {
+		sentry.CaptureException(err)
 		log.Fatal("Error while parsing MongoDB URI. Make sure it is right..")
 	}
 
 	// Create a new Mongo Client
-	// Set retry writes to false because mongoDB deployment doesn't support it
-	client, err := mongo.NewClient(options.Client().ApplyURI(mongoURI + "?retryWrites=false"))
+	client, err := mongo.NewClient(options.Client().ApplyURI(mongoURI))
 
 	if err != nil {
+		sentry.CaptureException(err)
 		log.Fatal("Error while initializing MongoDB server. Make sure the URI is correct..")
 	}
 
@@ -43,6 +45,7 @@ func (m *Mongo) Init() {
 	err = client.Connect(context.TODO())
 
 	if err != nil {
+		sentry.CaptureException(err)
 		log.Fatal("Error while connecting to MongoDB server. Make sure it is running..")
 	}
 
@@ -50,6 +53,7 @@ func (m *Mongo) Init() {
 	err = client.Ping(context.TODO(), nil)
 
 	if err != nil {
+		sentry.CaptureException(err)
 		log.Fatal(err)
 	}
 
