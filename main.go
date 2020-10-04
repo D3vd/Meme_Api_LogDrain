@@ -19,6 +19,7 @@ func main() {
 		Mongo: m,
 	}
 
+	http.HandleFunc("/ping", c.PingHandler)
 	http.HandleFunc("/log", c.ProcessLogsHandler)
 
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), nil)
